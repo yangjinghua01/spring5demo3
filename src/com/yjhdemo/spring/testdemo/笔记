@@ -1,0 +1,10 @@
+第一步 引入依赖
+spring-aop-5.2.6.RELEASE.jar
+第二步开启组件扫描
+<!--首先要引入名称空间-->
+<!--    开启组建扫描
+1.扫描多个包用逗号隔开
+2.扫描包的上层目录
+-->
+    <context:component-scan base-package="com.yjhdemo.spring.testdemo"></context:component-scan>
+第三步创建类 在类上面添加创建对象的注解
