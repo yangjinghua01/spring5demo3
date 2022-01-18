@@ -73,4 +73,52 @@ context：exclude-filter 设置哪些内容bu进行扫描
             System.out.println(userService);
             userService.add();
         }
+（1）Aop 面向切面，不修改原代码进行功能增强
+AOP（概念）
+1、什么是AOP
+（1）面向切面编程利用AOP可以对业务逻辑进行隔离，从使逻辑部分直接的耦合降低，提高程序的可重用性，同时提高开发效率
+（2）不通过修改原代码的方式在主干添加新功能
+AOP的底层原理
+1.AOP底层使用了动态代理
+第一种有接口 使用JDK动态代理
+创建接口实现类代理对象，增强类的方法原理图见AOP原理图.png
+第二种没有接口情况使用CGLIB动态代理
+AOP（JDK动态代理）
+1.使用JDK动态代理，使用Proxy类里面的方法创建代理对象
+调用jdk8的newProxyInstance方法
+方法有三个参数
+第一个参数   类加载器
+第二个参数   怎去方法所在的类。这个类实现的接口，支持对公接口
+第三个参数   实现这个接口InvocationHandler,创建代理对象，写怎去的方法
+（1）创建接口，定义方法
+（2）创建接口实现类，实现方法
+(3)使用Proxy类创建接口代理对象
+在主方法中运行的部分
+        UserDaoImpl userDao = new UserDaoImpl(); ---------------------->实例化实现类
+        UserDao dao = (UserDao) Proxy.newProxyInstance(JDKProxy.class.getClassLoader(), interfaces, new UserDaoProxy(userDao)); --------->传参
+        int result =dao.add(1,2);   ------->调用方法
+        System.out.println(result);
+
+        参数所需要的类
+          static class UserDaoProxy implements InvocationHandler {
+                //            把创建是谁的代理对象，把谁传递过来
+        //在这个方法里写增强的部分代码
+                private Object obj;
+                public UserDaoProxy(Object obj) {
+                    this.obj =obj;
+                }
+
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        //            方法之前
+                    System.out.println("方法执行之前=======================================>"+method.getName()+"======<参数列表"+ Arrays.toString(args));
+        //            被增强的方法执行
+                    Object invokes = method.invoke(obj, args);
+        //            方法之后
+                    System.out.println("方法执行之后=======================================>"+obj);
+                    return invokes;
+                }
+            }
+
+
 

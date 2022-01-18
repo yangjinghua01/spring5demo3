@@ -22,7 +22,7 @@ public class UserService {
     @Value(value = "123")
     private String name;
     @Autowired
-    @Qualifier(value = "impl1")
+//    @Qualifier(value = "impl1")
 //    @Resource (name = "impl1")
 
     private UserDao userDao;
