@@ -205,5 +205,29 @@ public class User {
                     System.out.println("执行before方法");
                 }
             }
-
+5.公共切入点进行抽取
+6.有多个增强类同一个方法进行增强，设置增强类优先级
+（1）在增强类上面添加注解@Order（数字类型值），数字类型值越小优先级越高
 AOP操作（AspectJ配置文件）
+1.创建两个列增强类和被增强类，创建方法
+
+2.在spring配置文件中创建两个类对象
+<bean id="book" class="com.yjhdemo.spring.testdemo.Aopxml.Book"></bean>
+    <bean id="bookProxy" class="com.yjhdemo.spring.testdemo.Aopxml.BookProxy"></bean>
+3.在spring配置文件中配置切入点
+<!--配置aop增强-->
+   <aop:config>
+<!--       切入点-->
+       <aop:pointcut id="p" expression="execution(* com.yjhdemo.spring.testdemo.Aopxml.Book.buy(..))"/>
+   <aop:aspect ref="bookProxy">
+       <aop:before method="before" pointcut-ref="p"/>
+   </aop:aspect>
+   </aop:config>
+   配置类的写法
+
+@Configuration //作为配置类，替代xml配置文件
+@ComponentScan(basePackages = {"com.yjhdemo.spring.testdemo"})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class SpringConfig {
+
+}

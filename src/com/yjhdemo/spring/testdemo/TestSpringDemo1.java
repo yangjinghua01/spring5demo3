@@ -1,5 +1,6 @@
 package com.yjhdemo.spring.testdemo;
 
+import com.yjhdemo.spring.testdemo.Aopxml.Book;
 import com.yjhdemo.spring.testdemo.config.SpringConfig;
 import com.yjhdemo.spring.testdemo.service.UserService;
 import jdk.jfr.StackTrace;
@@ -22,5 +23,11 @@ public class TestSpringDemo1 {
         UserService userService = context.getBean("userService", UserService.class);
         System.out.println(userService);
         userService.add();
+    }
+    @Test
+    public void testAopXml(){
+        ApplicationContext context = new ClassPathXmlApplicationContext("Beantow.xml");
+        Book book = context.getBean("book",Book.class);
+        book.buy();
     }
 }
